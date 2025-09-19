@@ -51,9 +51,12 @@ ENV HF_HOME=/app/models
 # Copy requirements first for better caching
 COPY requirements.txt .
 
-# Install Python dependencies
+# Install PyTorch with CUDA support first
 RUN python3 -m pip install --no-cache-dir --upgrade pip && \
-    python3 -m pip install --no-cache-dir -r requirements.txt
+    python3 -m pip install --no-cache-dir torch==2.1.0+cu121 torchvision==0.16.0+cu121 --index-url https://download.pytorch.org/whl/cu121
+
+# Install other Python dependencies
+RUN python3 -m pip install --no-cache-dir -r requirements.txt
 
 # Copy application code
 COPY handler.py .
