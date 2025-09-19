@@ -1,6 +1,10 @@
 # Use NVIDIA CUDA image as base with Python 3.11
 FROM nvidia/cuda:13.0.1-cudnn-runtime-ubuntu22.04
 
+# Prevent interactive prompts during package installation
+ENV DEBIAN_FRONTEND=noninteractive
+ENV TZ=UTC
+
 # Install Python 3.11
 RUN apt-get update && apt-get install -y \
     software-properties-common \
@@ -43,9 +47,6 @@ ENV PYTHONDONTWRITEBYTECODE=1
 ENV CUDA_VISIBLE_DEVICES=0
 ENV TRANSFORMERS_CACHE=/app/models
 ENV HF_HOME=/app/models
-# Prevent interactive prompts during package installation
-ENV DEBIAN_FRONTEND=noninteractive
-ENV TZ=UTC
 
 # Copy requirements first for better caching
 COPY requirements.txt .
