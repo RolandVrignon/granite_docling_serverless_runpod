@@ -1,146 +1,141 @@
-# Granite Docling Serverless sur Runpod - Version Complète
+# Granite Docling Serverless on Runpod - Complete Version
 
-Ce projet déploie IBM Granite Docling comme une fonction serverless sur Runpod avec **TOUTES** les fonctionnalités avancées pour la conversion de documents de bout en bout.
+This project deploys IBM Granite Docling as a serverless function on Runpod with **ALL** advanced features for end-to-end document conversion.
 
-## 🚀 Fonctionnalités Complètes
+## 🚀 Complete Features
 
-### 🎯 **Conversion de Documents**
-- **Formats supportés** : PDF, DOCX, DOC, TXT, HTML, PNG, JPG, JPEG, TIFF
-- **Sorties** : Markdown, HTML avec structure préservée
-- **Conversion depuis URL** ou **données base64**
+### 🎯 **Document Conversion**
+- **Supported formats**: PDF, DOCX, DOC, TXT, HTML, PNG, JPG, JPEG, TIFF
+- **Outputs**: Markdown, HTML with preserved structure
+- **Conversion from URL** or **base64 data**
 
-### 🖼️ **Descriptions d'Images en Français**
-- **Génération automatique** de descriptions d'images en français
-- **Modèle BLIP** pour la reconnaissance d'images
-- **Traduction** français ↔ anglais
-- **Analyse de contenu visuel** (graphiques, diagrammes, photos)
+### 🖼️ **French Image Descriptions**
+- **Automatic generation** of image descriptions in French
+- **BLIP model** for image recognition
+- **Translation** French ↔ English
+- **Visual content analysis** (charts, diagrams, photos)
 
-### 🧮 **Enrichissement des Formules Mathématiques**
-- **Reconnaissance** des formules LaTeX et mathématiques
-- **Classification** des types de formules (arithmétique, équations, exponentielles)
-- **Descriptions** en français et anglais
-- **Conversion** vers format LaTeX standardisé
+### 🧮 **Mathematical Formula Enrichment**
+- **Recognition** of LaTeX and mathematical formulas
+- **Classification** of formula types (arithmetic, equations, exponential)
+- **Descriptions** in French and English
+- **Conversion** to standardized LaTeX format
 
-### 📊 **Analyse Avancée des Tableaux**
-- **Détection automatique** des tableaux
-- **Analyse de structure** (lignes, colonnes, en-têtes)
-- **Classification** des types de données
-- **Conversion** en format Markdown/HTML structuré
+### 📊 **Advanced Table Analysis**
+- **Automatic detection** of tables
+- **Structure analysis** (rows, columns, headers)
+- **Data type classification**
+- **Conversion** to structured Markdown/HTML format
 
-### 🌍 **OCR Multilingue**
-- **Support de 11 langues** : Français, Anglais, Allemand, Espagnol, Italien, Portugais, Néerlandais, Russe, Chinois, Japonais, Coréen
-- **Reconnaissance optimisée** pour documents multilingues
-- **Détection automatique** de la langue
+### 🌍 **Multilingual OCR**
+- **Support for 11 languages**: French, English, German, Spanish, Italian, Portuguese, Dutch, Russian, Chinese, Japanese, Korean
+- **Optimized recognition** for multilingual documents
+- **Automatic language detection**
 
-### 📈 **Enrichissement de Contenu**
-- **Statistiques** du document (mots, caractères, paragraphes)
-- **Score de lisibilité** automatique
-- **Détection du type** de contenu
-- **Analyse de structure** (titres, listes, sections)
+### 📈 **Content Enhancement**
+- **Document statistics** (words, characters, paragraphs)
+- **Automatic readability score**
+- **Content type detection**
+- **Structure analysis** (headings, lists, sections)
 
-### 🔄 **Traitement par Lots**
-- **Conversion multiple** de documents en une seule requête
-- **Support mixte** URL + base64
-- **Résultats détaillés** par document
+### 🔄 **Batch Processing**
+- **Multiple document conversion** in a single request
+- **Mixed support** URL + base64
+- **Detailed results** per document
 
-### ⚡ **Performance et Scalabilité**
-- **Serverless** : Scaling automatique sur Runpod
-- **GPU Support** : Utilisation optimale des GPU
-- **Cache intelligent** : Réutilisation des modèles
-- **Timeout configurable** : Jusqu'à 5 minutes
+### ⚡ **Performance and Scalability**
+- **Serverless**: Automatic scaling on Runpod
+- **GPU Support**: Optimal GPU utilization
+- **Smart caching**: Model reuse
+- **Configurable timeout**: Up to 5 minutes
 
-## 📋 Prérequis
+## 📋 Prerequisites
 
-- Compte Runpod avec accès aux GPU
-- Docker installé
+- Runpod account with GPU access
+- Docker installed
 - Python 3.11+
 - Runpod CLI
 
 ## 🛠️ Installation
 
-### 1. Cloner le projet
+### 1. Clone the project
 
 ```bash
-git clone <votre-repo>
-cd Docling_Granite_Serverless_Runpod
+git clone https://github.com/RolandVrignon/granite_docling_serverless_runpod.git
+cd granite_docling_serverless_runpod
 ```
 
-### 2. Installer les dépendances
+### 2. Install dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 3. Installer Runpod CLI
+### 3. Install Runpod CLI
 
 ```bash
 pip install runpod
 ```
 
-### 4. Se connecter à Runpod
+### 4. Connect to Runpod
 
 ```bash
 runpod login
 ```
 
-## 🚀 Déploiement
+## 🚀 Deployment
 
-### Déploiement automatique
+### Automatic deployment via GitHub
+
+The project is configured for automatic deployment from GitHub:
+
+1. **Push to main branch** triggers automatic build
+2. **Runpod detects changes** and builds Docker image
+3. **Serverless function deploys** automatically
+4. **Endpoint becomes available** at: `https://api.runpod.ai/v2/granite_docling_serverless_runpod`
+
+### Manual deployment
 
 ```bash
-./deploy.sh
-```
+# Build Docker image
+docker build -t granite-docling-serverless:latest .
 
-### Déploiement manuel
+# Tag for Runpod registry
+docker tag granite-docling-serverless:latest runpod.io/granite-docling-serverless:latest
 
-1. **Construire l'image Docker** :
-```bash
-docker build -t granite-docling:latest .
-```
+# Push to Runpod registry
+docker push runpod.io/granite-docling-serverless:latest
 
-2. **Tagger pour Runpod** :
-```bash
-docker tag granite-docling:latest runpod.io/granite-docling:latest
-```
-
-3. **Pousser vers Runpod** :
-```bash
-docker push runpod.io/granite-docling:latest
-```
-
-4. **Déployer la fonction serverless** :
-```bash
+# Deploy serverless function
 runpod serverless deploy \
     --name granite-docling-serverless \
-    --image runpod.io/granite-docling:latest \
-    --handler main.runpod_handler \
+    --image runpod.io/granite-docling-serverless:latest \
+    --handler handler.handler \
     --timeout 300 \
     --memory 16Gi \
     --gpu 1 \
     --cpu 4
 ```
 
-## 🧪 Test local
+## 🧪 Local Testing
 
-### Démarrer l'API localement
-
-```bash
-python main.py
-```
-
-L'API sera disponible sur `http://localhost:8000`
-
-### Exécuter les tests
+### Start local testing
 
 ```bash
-python test_local.py
+python examples.py
 ```
 
-## 📚 Utilisation de la Fonction Serverless
+### Test serverless handler
 
-### Paramètres d'Entrée Complets
+```bash
+python test_serverless.py
+```
 
-#### 1. Conversion depuis URL avec toutes les fonctionnalités
+## 📚 Serverless Function Usage
+
+### Complete Input Parameters
+
+#### 1. URL conversion with all features
 ```json
 {
   "input": {
@@ -156,7 +151,7 @@ python test_local.py
 }
 ```
 
-#### 2. Conversion depuis base64 avec enrichissement
+#### 2. Base64 conversion with enrichment
 ```json
 {
   "input": {
@@ -171,7 +166,7 @@ python test_local.py
 }
 ```
 
-#### 3. Traitement par lots
+#### 3. Batch processing
 ```json
 {
   "input": {
@@ -191,7 +186,7 @@ python test_local.py
 }
 ```
 
-#### 4. Informations sur les modèles
+#### 4. Model information
 ```json
 {
   "input": {
@@ -200,12 +195,12 @@ python test_local.py
 }
 ```
 
-### Réponse Complète avec Toutes les Fonctionnalités
+### Complete Response with All Features
 
 ```json
 {
   "success": true,
-  "content": "Contenu du document converti...",
+  "content": "Converted document content...",
   "output_format": "markdown",
   "source": "url",
   "source_url": "https://example.com/document.pdf",
@@ -286,11 +281,11 @@ python test_local.py
 }
 ```
 
-### Exemples d'Utilisation avec curl
+### Usage Examples with curl
 
 ```bash
-# Conversion complète depuis URL
-curl -X POST https://api.runpod.ai/v2/granite-docling-serverless/runsync \
+# Complete conversion from URL
+curl -X POST https://api.runpod.ai/v2/granite_docling_serverless_runpod/runsync \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer YOUR_API_KEY" \
   -d '{
@@ -304,8 +299,8 @@ curl -X POST https://api.runpod.ai/v2/granite-docling-serverless/runsync \
     }
   }'
 
-# Conversion depuis base64
-curl -X POST https://api.runpod.ai/v2/granite-docling-serverless/runsync \
+# Base64 conversion
+curl -X POST https://api.runpod.ai/v2/granite_docling_serverless_runpod/runsync \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer YOUR_API_KEY" \
   -d '{
@@ -317,8 +312,8 @@ curl -X POST https://api.runpod.ai/v2/granite-docling-serverless/runsync \
     }
   }'
 
-# Informations sur les modèles
-curl -X POST https://api.runpod.ai/v2/granite-docling-serverless/runsync \
+# Model information
+curl -X POST https://api.runpod.ai/v2/granite_docling_serverless_runpod/runsync \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer YOUR_API_KEY" \
   -d '{
@@ -330,139 +325,159 @@ curl -X POST https://api.runpod.ai/v2/granite-docling-serverless/runsync \
 
 ## 🔧 Configuration
 
-### Variables d'environnement
+### Environment Variables
 
-- `CUDA_VISIBLE_DEVICES` : GPU à utiliser (défaut: 0)
-- `TRANSFORMERS_CACHE` : Cache des modèles (défaut: /app/models)
-- `HF_HOME` : Dossier Hugging Face (défaut: /app/models)
+- `CUDA_VISIBLE_DEVICES`: GPU to use (default: 0)
+- `TRANSFORMERS_CACHE`: Model cache (default: /app/models)
+- `HF_HOME`: Hugging Face folder (default: /app/models)
+- `LOG_LEVEL`: Logging level (default: INFO)
 
-### Configuration Runpod
+### Runpod Configuration
 
-Le fichier `runpod_config.yaml` contient la configuration pour le déploiement serverless :
+The `serverless_config.yaml` file contains the serverless deployment configuration:
 
-- **GPU** : 1 GPU avec 24Gi de mémoire
-- **CPU** : 4 cœurs
-- **RAM** : 16Gi
-- **Timeout** : 5 minutes
-- **Scaling** : 0-10 instances
+- **GPU**: 1 GPU with 24Gi memory
+- **CPU**: 4 cores
+- **RAM**: 16Gi
+- **Timeout**: 5 minutes
+- **Scaling**: 0-10 instances
 
-## 📊 Modèles supportés
+## 📊 Supported Models
 
-- **granite-docling-1.5b** : Modèle compact pour usage général
-- **granite-docling-3b** : Modèle plus large pour meilleure qualité
+- **granite-docling-1.5b**: Compact model for general use
+- **granite-docling-3b**: Larger model for better quality
+- **BLIP**: Image description model
+- **TrOCR**: Formula recognition model
 
-## 🎯 Formats supportés
+## 🎯 Supported Formats
 
-### Entrée
+### Input
 - PDF
 - DOCX/DOC
 - Images (PNG, JPG, TIFF)
 - HTML
 - TXT
 
-### Sortie
+### Output
 - Markdown
 - HTML
 
-## 🔍 Fonctionnalités avancées
+## 🔍 Advanced Features
 
-### OCR (Reconnaissance optique de caractères)
-- Reconnaissance automatique du texte dans les images
-- Support multi-langues
-- Amélioration de la qualité d'image
+### OCR (Optical Character Recognition)
+- Automatic text recognition in images
+- Multi-language support
+- Image quality enhancement
 
-### Extraction de tableaux
-- Détection automatique des tableaux
-- Conversion en format Markdown/HTML
-- Préservation de la structure
+### Table Extraction
+- Automatic table detection
+- Conversion to Markdown/HTML format
+- Structure preservation
 
-### Extraction d'images
-- Détection et extraction des images
-- Intégration dans le document de sortie
-- Support des légendes
+### Image Extraction
+- Image detection and extraction
+- Integration in output document
+- Caption support
 
-## 🚨 Dépannage
+### Formula Recognition
+- Mathematical expression detection
+- LaTeX format conversion
+- Formula type classification
 
-### Problèmes courants
+## 🚨 Troubleshooting
 
-1. **Erreur GPU** : Vérifiez que CUDA est installé et configuré
-2. **Mémoire insuffisante** : Augmentez la mémoire allouée dans la configuration
-3. **Timeout** : Augmentez le timeout pour les gros documents
-4. **Modèle non trouvé** : Vérifiez la connexion internet pour télécharger les modèles
+### Common Issues
+
+1. **GPU Error**: Check that CUDA is installed and configured
+2. **Insufficient Memory**: Increase allocated memory in configuration
+3. **Timeout**: Increase timeout for large documents
+4. **Model Not Found**: Check internet connection for model downloads
 
 ### Logs
 
-Les logs sont disponibles dans :
-- Console Runpod
-- Fichiers de log locaux
-- Endpoint `/health` pour le statut
+Logs are available in:
+- Runpod Console
+- Local log files
+- `/health` endpoint for status
 
 ## 📈 Monitoring
 
-### Métriques disponibles
+### Available Metrics
 
-- Temps de traitement
-- Utilisation GPU/CPU
-- Taux de succès
-- Latence
+- Processing time
+- GPU/CPU usage
+- Success rate
+- Latency
 
-### Surveillance
+### Monitoring
 
 ```bash
-# Vérifier le statut
-curl https://api.runpod.ai/v2/granite-docling-serverless/status
+# Check status
+curl https://api.runpod.ai/v2/granite_docling_serverless_runpod/status
 
-# Voir les logs
-runpod logs granite-docling-serverless
+# View logs
+runpod logs granite_docling_serverless_runpod
 ```
 
-## 💰 Coûts
+## 💰 Costs
 
-### Facturation Runpod
+### Runpod Billing
 
-- **GPU** : Facturé par seconde d'utilisation
-- **Mémoire** : Facturée par Go-heure
-- **Réseau** : Facturé par Go transféré
+- **GPU**: Billed per second of usage
+- **Memory**: Billed per GB-hour
+- **Network**: Billed per GB transferred
 
-### Optimisation des coûts
+### Cost Optimization
 
-- Utilisez le scaling automatique
-- Optimisez la taille des documents
-- Cachez les modèles pour éviter les re-téléchargements
+- Use automatic scaling
+- Optimize document sizes
+- Cache models to avoid re-downloads
 
-## 🤝 Contribution
+## 🤝 Contributing
 
-1. Fork le projet
-2. Créez une branche feature
-3. Committez vos changements
-4. Poussez vers la branche
-5. Ouvrez une Pull Request
+1. Fork the project
+2. Create a feature branch
+3. Commit your changes
+4. Push to the branch
+5. Open a Pull Request
 
-## 📄 Licence
+## 📄 License
 
-Ce projet est sous licence MIT. Voir le fichier LICENSE pour plus de détails.
+This project is licensed under the MIT License. See the LICENSE file for more details.
 
 ## 🆘 Support
 
-- **Documentation IBM** : [Granite Docling](https://www.ibm.com/granite/docs/models/granite-docling/)
-- **Runpod Docs** : [Documentation Runpod](https://docs.runpod.io/)
-- **Issues** : Ouvrez une issue sur GitHub
+- **IBM Documentation**: [Granite Docling](https://www.ibm.com/granite/docs/models/granite-docling/)
+- **Runpod Docs**: [Runpod Documentation](https://docs.runpod.io/)
+- **Issues**: Open an issue on GitHub
 
-## 🔄 Mises à jour
+## 🔄 Updates
 
-Pour mettre à jour le déploiement :
+To update the deployment:
 
 ```bash
-# Reconstruire et redéployer
-./deploy.sh
+# Rebuild and redeploy
+git add .
+git commit -m "Update: description of changes"
+git push origin main
 
-# Ou mise à jour manuelle
-docker build -t granite-docling:latest .
-docker tag granite-docling:latest runpod.io/granite-docling:latest
-docker push runpod.io/granite-docling:latest
-runpod serverless update granite-docling-serverless --image runpod.io/granite-docling:latest
+# Or manual update
+docker build -t granite-docling-serverless:latest .
+docker tag granite-docling-serverless:latest runpod.io/granite-docling-serverless:latest
+docker push runpod.io/granite-docling-serverless:latest
+runpod serverless update granite-docling-serverless --image runpod.io/granite-docling-serverless:latest
 ```
+
+## 🎯 Key Features Summary
+
+✅ **French image descriptions** with automatic translation
+✅ **Complete mathematical formula enrichment**
+✅ **Advanced table analysis** with metadata
+✅ **Multilingual OCR** with 11 supported languages
+✅ **Content enhancement** with statistics and scores
+✅ **Batch processing** for multiple documents
+✅ **Complete document structure analysis**
 
 ---
 
-**Note** : Ce projet utilise IBM Granite Docling et nécessite un accès aux modèles IBM. Assurez-vous d'avoir les permissions appropriées avant le déploiement.
+**Note**: This project uses IBM Granite Docling and requires access to IBM models. Make sure you have the appropriate permissions before deployment.

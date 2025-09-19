@@ -1,5 +1,20 @@
-# Use Python 3.11 slim image as base
-FROM python:3.11-slim
+# Use NVIDIA CUDA image as base with Python 3.11
+FROM nvidia/cuda:13.0.1-cudnn-runtime-ubuntu22.04
+
+# Install Python 3.11
+RUN apt-get update && apt-get install -y \
+    software-properties-common \
+    && add-apt-repository ppa:deadsnakes/ppa \
+    && apt-get update && apt-get install -y \
+    python3.11 \
+    python3.11-dev \
+    python3.11-distutils \
+    python3-pip \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set Python 3.11 as default
+RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.11 1
+RUN update-alternatives --install /usr/bin/python python /usr/bin/python3.11 1
 
 # Set working directory
 WORKDIR /app
@@ -8,7 +23,6 @@ WORKDIR /app
 RUN apt-get update && apt-get install -y \
     build-essential \
     curl \
-    software-properties-common \
     git \
     libgl1-mesa-glx \
     libglib2.0-0 \
@@ -23,12 +37,6 @@ RUN apt-get update && apt-get install -y \
     libmagic1 \
     && rm -rf /var/lib/apt/lists/*
 
-# Install CUDA toolkit (for GPU support)
-RUN curl -fsSL https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/3bf863cc.pub | apt-key add - && \
-    echo "deb https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64 /" > /etc/apt/sources.list.d/cuda.list && \
-    apt-get update && apt-get install -y cuda-toolkit-11-8 && \
-    rm -rf /var/lib/apt/lists/*
-
 # Set environment variables
 ENV PYTHONUNBUFFERED=1
 ENV PYTHONDONTWRITEBYTECODE=1
@@ -40,8 +48,8 @@ ENV HF_HOME=/app/models
 COPY requirements.txt .
 
 # Install Python dependencies
-RUN pip install --no-cache-dir --upgrade pip && \
-    pip install --no-cache-dir -r requirements.txt
+RUN python3 -m pip install --no-cache-dir --upgrade pip && \
+    python3 -m pip install --no-cache-dir -r requirements.txt
 
 # Copy application code
 COPY handler.py .
@@ -54,4 +62,4 @@ RUN mkdir -p /app/temp /app/models /app/logs
 RUN chmod +x /app/handler.py
 
 # Runpod serverless entry point
-CMD ["python", "handler.py"]
+CMD ["python3", "handler.py"]
