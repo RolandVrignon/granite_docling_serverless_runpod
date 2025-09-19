@@ -1,0 +1,123 @@
+# Runpod Serverless Configuration for Granite Docling
+name: granite-docling-serverless
+runtime: python3.11
+handler: handler.handler
+timeout: 300  # 5 minutes timeout
+
+# Container configuration
+container:
+  image: runpod/pytorch:2.1.0-py3.11-cuda11.8.0-devel-ubuntu22.04
+  gpu: true
+  gpu_count: 1
+  memory: 16Gi
+  cpu_count: 4
+
+# Environment variables
+env:
+  - name: PYTHONUNBUFFERED
+    value: "1"
+  - name: CUDA_VISIBLE_DEVICES
+    value: "0"
+  - name: TRANSFORMERS_CACHE
+    value: "/app/models"
+  - name: HF_HOME
+    value: "/app/models"
+  - name: LOG_LEVEL
+    value: "INFO"
+
+# Volumes for persistent storage
+volumes:
+  - name: models
+    mount_path: /app/models
+    size: 50Gi
+
+# Scaling configuration
+scaling:
+  min_instances: 0
+  max_instances: 10
+  target_concurrency: 1
+
+# Resource limits
+resources:
+  cpu: "4"
+  memory: "16Gi"
+  gpu: "1"
+  gpu_memory: "24Gi"
+
+# Input/Output specifications
+input_schema:
+  type: object
+  properties:
+    document_url:
+      type: string
+      description: "URL of the document to convert"
+    document_base64:
+      type: string
+      description: "Base64 encoded document data"
+    filename:
+      type: string
+      description: "Filename for base64 documents"
+    output_format:
+      type: string
+      enum: ["markdown", "html"]
+      default: "markdown"
+      description: "Output format for converted document"
+    include_images:
+      type: boolean
+      default: true
+      description: "Whether to include images in output"
+    include_tables:
+      type: boolean
+      default: true
+      description: "Whether to include tables in output"
+    documents:
+      type: array
+      description: "Array of documents for batch processing"
+      items:
+        type: object
+        properties:
+          url:
+            type: string
+          base64:
+            type: string
+          filename:
+            type: string
+  oneOf:
+    - required: ["document_url"]
+    - required: ["document_base64"]
+    - required: ["documents"]
+
+output_schema:
+  type: object
+  properties:
+    success:
+      type: boolean
+      description: "Whether the conversion was successful"
+    content:
+      type: string
+      description: "Converted document content"
+    output_format:
+      type: string
+      description: "Format of the output content"
+    source:
+      type: string
+      enum: ["url", "base64"]
+      description: "Source type of the document"
+    source_url:
+      type: string
+      description: "Original URL if source was URL"
+    filename:
+      type: string
+      description: "Filename if source was base64"
+    error:
+      type: string
+      description: "Error message if conversion failed"
+    results:
+      type: array
+      description: "Results for batch processing"
+    total_documents:
+      type: integer
+      description: "Total number of documents in batch"
+    successful_conversions:
+      type: integer
+      description: "Number of successful conversions in batch"

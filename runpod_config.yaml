@@ -1,0 +1,55 @@
+# Runpod Serverless Configuration for Granite Docling
+name: granite-docling-serverless
+runtime: python3.11
+handler: main.runpod_handler
+timeout: 300  # 5 minutes timeout
+
+# Container configuration
+container:
+  image: runpod/pytorch:2.1.0-py3.11-cuda11.8.0-devel-ubuntu22.04
+  gpu: true
+  gpu_count: 1
+  memory: 16Gi
+  cpu_count: 4
+
+# Environment variables
+env:
+  - name: PYTHONUNBUFFERED
+    value: "1"
+  - name: CUDA_VISIBLE_DEVICES
+    value: "0"
+  - name: TRANSFORMERS_CACHE
+    value: "/app/models"
+  - name: HF_HOME
+    value: "/app/models"
+
+# Volumes for persistent storage
+volumes:
+  - name: models
+    mount_path: /app/models
+    size: 50Gi
+
+# Network configuration
+network:
+  ports:
+    - 8000
+
+# Scaling configuration
+scaling:
+  min_instances: 0
+  max_instances: 10
+  target_concurrency: 1
+
+# Health check
+health_check:
+  path: /health
+  interval: 30
+  timeout: 10
+  retries: 3
+
+# Resource limits
+resources:
+  cpu: "4"
+  memory: "16Gi"
+  gpu: "1"
+  gpu_memory: "24Gi"
