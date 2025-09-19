@@ -43,6 +43,9 @@ ENV PYTHONDONTWRITEBYTECODE=1
 ENV CUDA_VISIBLE_DEVICES=0
 ENV TRANSFORMERS_CACHE=/app/models
 ENV HF_HOME=/app/models
+# Prevent interactive prompts during package installation
+ENV DEBIAN_FRONTEND=noninteractive
+ENV TZ=UTC
 
 # Copy requirements first for better caching
 COPY requirements.txt .
