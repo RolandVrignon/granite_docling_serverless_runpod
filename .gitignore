@@ -53,9 +53,7 @@ logs/
 *.pdf
 *.docx
 *.doc
-*.txt
 *.html
-*.md
 test_document.*
 
 # Docker

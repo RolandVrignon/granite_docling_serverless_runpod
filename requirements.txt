@@ -1,0 +1,31 @@
+# Core dependencies for serverless function
+runpod==1.0.0
+transformers==4.36.0
+torch==2.1.0
+torchvision==0.16.0
+Pillow==10.1.0
+numpy==1.24.3
+pandas==2.1.4
+requests==2.31.0
+python-dotenv==1.0.0
+
+# Document processing
+docling==1.0.0
+docling-core==1.0.0
+pymupdf==1.23.8
+python-docx==1.1.0
+openpyxl==3.1.2
+
+# Image processing and AI models
+opencv-python-headless==4.8.1.78
+pdf2image==1.16.3
+pytesseract==0.3.10
+blip-image-captioning-base==1.0.0
+
+# Formula recognition
+trocr-base-printed==1.0.0
+
+# Utilities
+aiofiles==23.2.1
+asyncio==3.4.3
+regex==2023.10.3
